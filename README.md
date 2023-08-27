@@ -54,4 +54,10 @@ sudo ufw enable
 sudo ufw allow 6443/tcp
 
 
+Services:
+ClustureIP
+NodePort
+LoadBalancer
+
+
 ```
