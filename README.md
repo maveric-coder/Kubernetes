@@ -27,3 +27,16 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
+
+
+Objects in Kubernetes:
+POD 
+Service
+RC
+RS
+DS
+VolumeJobs
+
+
+Kubectl get nodes
+kubectl get ns
