@@ -28,7 +28,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
 
-
+```bash
 Objects in Kubernetes:
 POD 
 Service
@@ -40,3 +40,16 @@ VolumeJobs
 
 Kubectl get nodes
 kubectl get ns
+
+
+kubectl get componentstatuses
+
+sudo ufw status verbose
+sudo ufw disable
+## turn on
+sudo ufw enable
+## make sure your kube-apiserver can get through port 6443
+sudo ufw allow 6443/tcp
+
+
+```
