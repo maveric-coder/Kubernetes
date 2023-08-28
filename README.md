@@ -30,16 +30,16 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documen
 kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
 ```
 
-```bash
+
 Objects in Kubernetes:
 POD 
 Service
-RC
-RS
+ReplicaController
+ReplicaSet
 DS
 VolumeJobs
 
-
+```bash
 Kubectl get nodes
 kubectl get ns
 
