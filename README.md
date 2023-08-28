@@ -32,12 +32,12 @@ kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/m
 
 
 Objects in Kubernetes:
-POD 
-Service
-ReplicaController
-ReplicaSet
-DS
-VolumeJobs
+* POD 
+* Service
+* ReplicaController
+* ReplicaSet
+* DS
+* VolumeJobs
 
 ```bash
 Kubectl get nodes
