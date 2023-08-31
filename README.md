@@ -1,5 +1,72 @@
 # Kubernetes
 
+The key difference between kubectl apply and create is that apply creates Kubernetes objects through a declarative syntax, while the create command is imperative.
+
+The command set kubectl apply is used at a terminal's command-line window to create or modify Kubernetes resources defined in a manifest file. This is called a declarative usage. The state of the resource is declared in the manifest file, then kubectl apply is used to implement that state.
+
+In contrast, the command set kubectl create is the command you use to create a Kubernetes resource directly at the command line. This is an imperative usage. You can also use kubectl create against a manifest file to create a new instance of the resource. However, if the resource already exists, you will get an error.
+
+### Example of kubectl apply
+Let's explore the details of both kubectl usages. First, let's look at kubectl apply. Listing 1 below is a manifest file that describes a Kubernetes deployment that has three replicas of a nginx container image.
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mydeployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```
+
+The name of the deployment manifest file in Listing 1 is mydeployment.yaml. If you run the command below, it will create a deployment according to the contents of this manifest file.
+```bash
+kubectl apply -f mydeployment.yaml
+```
+Executing the command will create the following response:
+
+`deployment/mydeployment created`
+
+When you run the command `kubectl get deployment`, you'll get the following output:
+
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployment   3/3     3            3           7m10s
+Here, we've created the deployment named mydeployment, and it is running its three pods.
+
+Example of kubectl create
+Now, let's use kubectl create to try to create a deployment imperatively, like so:
+```bash
+kubectl create deployment mydeployment --image=nginx
+```
+When you execute the imperative command, you'll get the following result:
+
+`Error from server (AlreadyExists): deployments.apps "mydeployment" already exists`
+
+This makes sense. Remember, if you try to use kubectl create against a resource that already exists, you'll get an error.
+
+However, let's try to execute kubectl create for a resource that doesn't exist. In this case, we'll create a Kubernetes deployment named yourdeployment. We'll create it using the following command:
+```bash
+kubectl create deployment yourdeployment --image=nginx
+```
+You'll get the following output, indicating success:
+
+`deployment.apps/yourdeployment created`
+
+
 ```bash
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
