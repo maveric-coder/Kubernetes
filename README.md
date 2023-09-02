@@ -3,7 +3,9 @@
 ## Deployments in Kubernetes
 
 ### Recreate
-The recreate strategy is a dummy deployment which consists of shutting down version A then deploying version B after version A is turned off. This technique implies downtime of the service that depends on both shutdown and boot duration of the application.
+
+<a href="files/img/recreate.gif" target="blank"><img src = "files/img/recreate.gif" width="500" height="360"/></a> <br>
+The recreate strategy is a dummy deployment which consists of shutting down version V1 then deploying version V2 after version V1 is turned off. This technique implies downtime of the service that depends on both shutdown and boot duration of the application.
 
 Pros:
 
@@ -14,7 +16,9 @@ Cons:
 * High impact on the user, expect downtime that depends on both shutdown and boot duration of the application.
 
 ### Ramped
-The ramped deployment strategy consists of slowly rolling out a version of an application by replacing instances one after the other until all the instances are rolled out. It usually follows the following process: with a pool of version A behind a load balancer, one instance of version B is deployed. When the service is ready to accept traffic, the instance is added to the pool. Then, one instance of version A is removed from the pool and shut down.
+
+<a href="files/img/ramped.gif" target="blank"><img src = "files/img/ramped.gif" width="500" height="360"/></a> <br>
+The ramped deployment strategy consists of slowly rolling out a version of an application by replacing instances one after the other until all the instances are rolled out. It usually follows the following process: with a pool of version V1 behind a load balancer, one instance of version V2 is deployed. When the service is ready to accept traffic, the instance is added to the pool. Then, one instance of version V1 is removed from the pool and shut down.
 
 Depending on the system taking care of the ramped deployment, you can tweak the following parameters to increase the deployment time:
 
@@ -34,7 +38,9 @@ Cons:
 * No control over traffic.
 
 ### Blue/Green
-The blue/green deployment strategy differs from a ramped deployment, version B (green) is deployed alongside version A (blue) with exactly the same amount of instances. After testing that the new version meets all the requirements the traffic is switched from version A to version B at the load balancer level.
+
+<a href="files/img/blue-green.gif" target="blank"><img src = "files/img/blue-green.gif" width="500" height="360"/></a> <br>
+The blue/green deployment strategy differs from a ramped deployment, version V2 (green) is deployed alongside version V1 (blue) with exactly the same amount of instances. After testing that the new version meets all the requirements the traffic is switched from version V1 to version V2 at the load balancer level.
 Pros:
 
 * Instant rollout/rollback.
@@ -46,7 +52,9 @@ Cons:
 * Handling stateful applications can be hard.
 
 ### Canary
-A canary deployment consists of gradually shifting production traffic from version A to version B. Usually the traffic is split based on weight. For example, 90 percent of the requests go to version A, 10 percent go to version B.
+
+<a href="files/img/canary.gif" target="blank"><img src = "files/img/canary.gif" width="500" height="360"/></a> <br>
+A canary deployment consists of gradually shifting production traffic from version V1 to version V2. Usually the traffic is split based on weight. For example, 90 percent of the requests go to version V1, 10 percent go to version V2.
 
 This technique is mostly used when the tests are lacking or not reliable or if there is little confidence about the stability of the new release on the platform.
 
@@ -60,6 +68,8 @@ Con:
 * Slow rollout.
 
 ### A/B testing
+
+<a href="files/img/a-b.gif" target="blank"><img src = "files/img/a-b.gif" width="500" height="360"/></a> <br>
 A/B testing deployments consists of routing a subset of users to a new functionality under specific conditions. It is usually a technique for making business decisions based on statistics, rather than a deployment strategy. However, it is related and can be implemented by adding extra functionality to a canary deployment so we will briefly discuss it here.
 
 This technique is widely used to test conversion of a given feature and only roll-out the version that converts the most.
@@ -80,8 +90,10 @@ Cons:
 * Requires intelligent load balancer.
 * Hard to troubleshoot errors for a given session, distributed tracing becomes mandatory.
 
-### Shadow
-A shadow deployment consists of releasing version B alongside version A, fork version A’s incoming requests and send them to version B as well without impacting production traffic. This is particularly useful to test production load on a new feature. A rollout of the application is triggered when stability and performance meet the requirements.
+### Shadow'
+
+<a href="files/img/shadow.gif" target="blank"><img src = "files/img/shadow.gif" width="500" height="360"/></a> <br>
+A shadow deployment consists of releasing version V2 alongside version V1, fork version V1’s incoming requests and send them to version V2 as well without impacting production traffic. This is particularly useful to test production load on a new feature. A rollout of the application is triggered when stability and performance meet the requirements.
 
 This technique is fairly complex to setup and needs special requirements, especially with egress traffic. For example, given a shopping cart platform, if you want to shadow test the payment service you can end-up having customers paying twice for their order. In this case, you can solve it by creating a mocking service that replicates the response from the provider.
 
