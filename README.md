@@ -97,6 +97,12 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml
 
 kubectl apply -f https://raw.githubusercontent.com/cloudnativelabs/kube-router/master/daemonset/kubeadm-kuberouter.yaml
+
+
+sudo -i
+swapoff -a
+exit
+strace -eopenat kubectl version
 ```
 
 
