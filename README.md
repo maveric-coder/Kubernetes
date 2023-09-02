@@ -11,6 +11,7 @@ Pros:
 
 * Easy to setup.
 * Application state entirely renewed.
+
 Cons:
 
 * High impact on the user, expect downtime that depends on both shutdown and boot duration of the application.
@@ -31,6 +32,7 @@ Pros:
 * Easy to set up.
 * Version is slowly released across instances.
 * Convenient for stateful applications that can handle rebalancing of the data.
+
 Cons:
 
 * Rollout/rollback can take time.
@@ -45,6 +47,7 @@ Pros:
 
 * Instant rollout/rollback.
 * Avoid versioning issue, the entire application state is changed in one go.
+
 Cons:
 
 * Expensive as it requires double the resources.
@@ -63,7 +66,8 @@ Pros:
 * Version released for a subset of users.
 * Convenient for error rate and performance monitoring.
 * Fast rollback.
-Con:
+
+Cons:
 
 * Slow rollout.
 
@@ -85,6 +89,7 @@ Pros:
 
 * Several versions run in parallel.
 * Full control over the traffic distribution.
+
 Cons:
 
 * Requires intelligent load balancer.
@@ -102,6 +107,7 @@ Pros:
 * Performance testing of the application with production traffic.
 * No impact on the user.
 * No rollout until the stability and performance of the application meet the requirements.
+
 Cons:
 
 * Expensive as it requires double the resources.
