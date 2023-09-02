@@ -95,7 +95,7 @@ Cons:
 * Requires intelligent load balancer.
 * Hard to troubleshoot errors for a given session, distributed tracing becomes mandatory.
 
-### Shadow'
+### Shadow
 
 <a href="files/img/shadow.gif" target="blank"><img src = "files/img/shadow.gif" width="500" height="360"/></a> <br>
 A shadow deployment consists of releasing version V2 alongside version V1, fork version V1’s incoming requests and send them to version V2 as well without impacting production traffic. This is particularly useful to test production load on a new feature. A rollout of the application is triggered when stability and performance meet the requirements.
