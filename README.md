@@ -1,5 +1,32 @@
 # Kubernetes
 
+## EKS
+```bash
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/bin
+```
+Check the version of installed eksctl
+```bash
+eksctl version
+eksctl --help
+```
+Now, we will create an EKS clusture and will fill the needed details in the command line.
+```bash
+eksctl create cluster --name myClusture --version 1.27 --region us-east-1 --nodegroup-name standard-workers --node-type t2.micro --nodes 3 --nodes-min 1 --nodes-max 4 --managed
+```
+Post execution of the above step, we need to wait for 15-20 mins for the cluster to created nodes. Meanwhile we can go to EKS and see the resources getting created with time.
+
+```bash
+kubectl get svc --all-namespaces
+```
+The above command will list all the services and namespaces. Delete all the services having `EXTERNAL_IP` before proceedign to delete the clusture.
+```bash
+kubectl delete svc service-name
+```
+Post deletion of seleted services, proceed to delete the whole clusture.
+```bash
+eksctl delete cluster --name prod
+```
 ## Deployments in Kubernetes
 
 ### Recreate
