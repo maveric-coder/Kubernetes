@@ -1,5 +1,26 @@
 # Kubernetes
 
+
+### Master Node in Kubernetes Architecture:
+The Kubernetes Master (Master Node) receives input from a CLI (Command-Line Interface) or UI (User Interface) via an API. These are the commands you provide to Kubernetes.
+
+You define pods, replica sets, and services that you want Kubernetes to maintain. For example, which container image to use, which ports to expose, and how many pod replicas to run.
+
+You also provide the parameters of the desired state for the application(s) running in that cluster.
+
+* **API Server**
+The API Server is the front-end of the control plane and the only component in the control plane that we interact with directly. Internal system components, as well as external user components, all communicate via the same API.
+
+* **Key-Value Store (etcd)**
+The Key-Value Store, also called etcd, is a database Kubernetes uses to back-up all cluster data. It stores the entire configuration and state of the cluster. The Master node queries etcd to retrieve parameters for the state of the nodes, pods, and containers.
+
+* **Controller**
+The role of the Controller is to obtain the desired state from the API Server. It checks the current state of the nodes it is tasked to control, and determines if there are any differences, and resolves them, if any.
+
+* **Scheduler**
+A Scheduler watches for new requests coming from the API Server and assigns them to healthy nodes. It ranks the quality of the nodes and deploys pods to the best-suited node. If there are no suitable nodes, the pods are put in a pending state until such a node appears.
+
+
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
 A pod is a group of one or more containers. A container is an enclosed, self-contained execution process, much like a process in an operating system. Kubernetes uses pods to run your code and images in the cluster.
