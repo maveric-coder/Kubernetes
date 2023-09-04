@@ -1,7 +1,7 @@
 # Kubernetes
 
 ## Pods
-<a href="files/img/recreate.gif" target="blank"><img src = "files/img/recreate.gif" width="500" height="360"/></a> <br>
+<a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
 A pod is a group of one or more containers. A container is an enclosed, self-contained execution process, much like a process in an operating system. Kubernetes uses pods to run your code and images in the cluster.
 
 Kubernetes works with Pods, rather than containers, so that containers in the same pod can be guaranteed to run on the same machine. Containers in the same pod share their networking infrastructure, storage resources, and lifecycle.
