@@ -3,40 +3,12 @@
 ## Index
 * [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/)
 * [Pods](#pods)
+* Managing EKS
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
 A pod is a group of one or more containers. A container is an enclosed, self-contained execution process, much like a process in an operating system. Kubernetes uses pods to run your code and images in the cluster.
 
 Kubernetes works with Pods, rather than containers, so that containers in the same pod can be guaranteed to run on the same machine. Containers in the same pod share their networking infrastructure, storage resources, and lifecycle.
-
-
-## EKS
-```bash
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-sudo mv /tmp/eksctl /usr/bin
-```
-Check the version of installed eksctl
-```bash
-eksctl version
-eksctl --help
-```
-Now, we will create an EKS clusture and will fill the needed details in the command line.
-```bash
-eksctl create cluster --name myCluster --version 1.27 --region us-east-1 --nodegroup-name standard-workers --node-type t2.micro --nodes 3 --nodes-min 1 --nodes-max 4 --managed
-```
-Post execution of the above step, we need to wait for 15-20 mins for the cluster to created nodes. Meanwhile we can go to EKS and see the resources getting created with time.
-
-```bash
-kubectl get svc --all-namespaces
-```
-The above command will list all the services and namespaces. Delete all the services having `EXTERNAL_IP` before proceedign to delete the clusture.
-```bash
-kubectl delete svc service-name
-```
-Post deletion of seleted services, proceed to delete the whole clusture.
-```bash
-eksctl delete cluster --name myCluster
-```
 
 
 ## Deployments in Kubernetes
@@ -223,7 +195,33 @@ You'll get the following output, indicating success:
 
 `deployment.apps/yourdeployment created`
 
+## Managing EKS
+```bash
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/bin
+```
+Check the version of installed eksctl
+```bash
+eksctl version
+eksctl --help
+```
+Now, we will create an EKS clusture and will fill the needed details in the command line.
+```bash
+eksctl create cluster --name myCluster --version 1.27 --region us-east-1 --nodegroup-name standard-workers --node-type t2.micro --nodes 3 --nodes-min 1 --nodes-max 4 --managed
+```
+Post execution of the above step, we need to wait for 15-20 mins for the cluster to created nodes. Meanwhile we can go to EKS and see the resources getting created with time.
 
+```bash
+kubectl get svc --all-namespaces
+```
+The above command will list all the services and namespaces. Delete all the services having `EXTERNAL_IP` before proceedign to delete the clusture.
+```bash
+kubectl delete svc service-name
+```
+Post deletion of seleted services, proceed to delete the whole clusture.
+```bash
+eksctl delete cluster --name myCluster
+```
 ```bash
 sudo apt-get update
 # apt-transport-https may be a dummy package; if so, you can skip that package
