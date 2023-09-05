@@ -13,6 +13,18 @@ Kubernetes works with Pods, rather than containers, so that containers in the sa
 let us create a simple pod.
 ```yaml
 apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  lables:
+    app: nginx
+spec:
+  containers:
+    -name: nginx-container
+      image: nging
+      ports:
+      - containerPort: 80
+```
 
 
 
