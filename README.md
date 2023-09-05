@@ -10,6 +10,16 @@ A pod is a group of one or more containers. A container is an enclosed, self-con
 
 Kubernetes works with Pods, rather than containers, so that containers in the same pod can be guaranteed to run on the same machine. Containers in the same pod share their networking infrastructure, storage resources, and lifecycle.
 
+let us create a simple pod.
+```yaml
+apiVersion: v1
+
+
+
+
+
+
+
 
 ## Deployments in Kubernetes
 
