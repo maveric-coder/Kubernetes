@@ -35,8 +35,11 @@ The above yml file will deploy a single pod. To deploy multiple pods at a time a
 
 ## Replica Controller
 A Replication Controller is a structure that enables us to easily create multiple pods, then it makes sure that that number of desired pods always exists(desired state = actual state). If a pod does crash, the Replication Controller replaces it.
+
 A Kubernetes controller such as the Replication Controller also provides other benefits, such as the ability to scale the number of pods, and to update or delete multiple pods with a single command.
+
 We can create a Replication Controller with an imperative command, or declaratively, from a file.  For example, let us see the file `rc.yml` file:
+
 ```yml
 apiVersion: v1
 kind: ReplicationController
