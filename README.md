@@ -66,6 +66,52 @@ To scale the no of pods post deployment, we can either modify the `rc.yml` file 
 ```bash
 kubectl scale rc nginx-rc --replicas = 5
 ```
+## Replica Cotroller
+
+ReplicaSets are declared in essentially the same way as ReplicationControllers, except that they have more options for the selector.
+
+A sample Replica Set is below:
+```yml
+apiVersion: v1
+kind: ReplicaSet
+metadata:
+  name: nginx-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+    matchExpressions:
+      - key: env
+        operator: In
+        values:
+          - dev
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        env: dev
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+This will deploy pods similar to that of replication controller the only difference between them is that ***RS*** has `matchLabels` in place of `labels`.
+```bash
+kubectk describe rs nginx-replicaset
+```
+In this case `Selector: app=nginx,env in (dev)`, only `app = nginx` and env in dev is getting selected. If we change the operator from `In` to `NotIn` the deployemnt will fail as there is mismatch of the labels.
+
+
+
+
+
+
+
+
 
 
 ## Deployments in Kubernetes
