@@ -10,7 +10,12 @@ A pod is a group of one or more containers. A container is an enclosed, self-con
 
 Kubernetes works with Pods, rather than containers, so that containers in the same pod can be guaranteed to run on the same machine. Containers in the same pod share their networking infrastructure, storage resources, and lifecycle.
 
-let us create a simple pod.
+let us create a simple pod by cloning the below repository:
+```bash
+git clone https://github.com/maveric-coder/Kubernetes.git
+cd Kubernetes/files/Kubernetes-Manifest-Files/
+cat nginxpod.yml
+```
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -25,8 +30,7 @@ spec:
       ports:
       - containerPort: 80
 ```
-
-
+Post deployment we can see the newly created Pod using command `kubectl get pods -o wide` or `kubectl get all -o wide`.
 
 
 
