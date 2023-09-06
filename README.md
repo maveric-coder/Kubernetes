@@ -169,11 +169,11 @@ The output is similar to: `deployment.apps/nginx-deployment image updated`
 ```bash
 kubectl rollout status deployment/nginx-deployment
 ```
-* * Run `kubectl get rs` to see that the Deployment updated the Pods by creating a new ReplicaSet and scaling it up to 3 replicas, as well as scaling down the old ReplicaSet to 0 replicas.
+  * Run `kubectl get rs` to see that the Deployment updated the Pods by creating a new ReplicaSet and scaling it up to 3 replicas, as well as scaling down the old ReplicaSet to 0 replicas.
 ```bash
 kubectl get rs
 ```
-* * Running `get pods` should now show only the new Pods:
+  * Running `get pods` should now show only the new Pods:
 ```bash
 kubectl get pods
 ```
