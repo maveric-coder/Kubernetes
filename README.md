@@ -157,6 +157,7 @@ Follow the steps given below to update your Deployment:
   kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.16.1
   ```
   or use the following command:
+  
   ```bash
   kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
   ```
