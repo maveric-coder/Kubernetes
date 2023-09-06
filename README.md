@@ -5,6 +5,11 @@
 * [Pods](#pods)
 * [Replica Controller](#replica-controller)
 * [Replica Set](#replica-set)
+* [Deployment](#deployment)
+  * [Updating Deployment](#updating-a-deployment)
+  * [Checking rollout history of deployment](#checking-rollout-history-of-a-deployment)
+  * [Rolling back to previous version](#checking-rollout-history-of-a-deployment)
+* [Types of Deployment](#deployments-in-kubernetes)
 * [Managing EKS](#managing-eks)
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
