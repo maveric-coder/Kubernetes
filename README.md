@@ -149,7 +149,19 @@ This label ensures that child ReplicaSets of a Deployment do not overlap. It is 
 ### Updating a Deployment
 **Note:** A Deployment's rollout is triggered if and only if the Deployment's Pod template (that is, .spec.template) is changed, for example if the labels or container images of the template are updated. Other updates, such as scaling the Deployment, do not trigger a rollout.
 
+Follow the steps given below to update your Deployment:
 
+1. Let's update the nginx Pods to use the nginx:1.16.1 image instead of the nginx:1.14.2 image.
+```bash
+kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.16.1
+```
+or use the following command:
+```bash
+kubectl set image deployment/nginx-deployment nginx=nginx:1.16.1
+```
+where deployment/nginx-deployment indicates the Deployment, nginx indicates the Container the update will take place and nginx:1.16.1 indicates the new image and its tag.
+
+The output is similar to: `deployment.apps/nginx-deployment image updated`
 
 
 
