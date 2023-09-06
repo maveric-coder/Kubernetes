@@ -3,6 +3,8 @@
 ## Index
 * [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/)
 * [Pods](#pods)
+* [Replica Controller](#replica-controller)
+* [Replica Set](#replica-set)
 * [Managing EKS](#managing-eks)
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
@@ -66,7 +68,7 @@ To scale the no of pods post deployment, we can either modify the `rc.yml` file 
 ```bash
 kubectl scale rc nginx-rc --replicas = 5
 ```
-## Replica Cotroller
+## Replica Set
 
 ReplicaSets are declared in essentially the same way as ReplicationControllers, except that they have more options for the selector.
 
