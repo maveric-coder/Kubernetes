@@ -165,15 +165,51 @@ where deployment/nginx-deployment indicates the Deployment, nginx indicates the 
 
 The output is similar to: `deployment.apps/nginx-deployment image updated`
 
-2. To see the rollout status, run:
+**2. To see the rollout status, run:**
 ```bash
 kubectl rollout status deployment/nginx-deployment
 ```
+* * Run `kubectl get rs` to see that the Deployment updated the Pods by creating a new ReplicaSet and scaling it up to 3 replicas, as well as scaling down the old ReplicaSet to 0 replicas.
+```bash
+kubectl get rs
+```
+* * Running `get pods` should now show only the new Pods:
+```bash
+kubectl get pods
+```
 
+### Checking Rollout History of a Deployment
+Follow the steps given below to check the rollout history:
 
+**1. First, check the revisions of this Deployment:**
+```bash
+kubectl rollout history deployment/nginx-deployment
+```
 
+**2. To see the details of each revision, run:**
+```bash
+kubectl rollout history deployment/nginx-deployment --revision=2
+```
+### Rolling Back to a Previous Revision
+Follow the steps given below to rollback the Deployment from the current version to the previous version, which is version 2.
 
+**1. Now you've decided to undo the current rollout and rollback to the previous revision:**
+```bash
+kubectl rollout undo deployment/nginx-deployment
+```
+Alternatively, you can rollback to a specific revision by specifying it with --to-revision:
+```bash
+kubectl rollout undo deployment/nginx-deployment --to-revision=2
+```
 
+**2. Check if the rollback was successful and the Deployment is running as expected, run:**
+```bash
+kubectl get deployment nginx-deployment
+```
+**3. Get the description of the Deployment:**
+```bash
+kubectl describe deployment nginx-deployment
+```
 ## Deployments in Kubernetes
 
 ### Recreate
