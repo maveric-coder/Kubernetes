@@ -1,7 +1,8 @@
 # Kubernetes
 
 ## Index
-* [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/){:target="_blank"}
+* [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/)
+* <a href="https://example.com" target="_blank" rel="noopener"><span>Example Text</span> </a>.
 * [Pods](#pods)
 * [Replica Controller](#replica-controller)
 * [Replica Set](#replica-set)
