@@ -1,8 +1,7 @@
 # Kubernetes
 
 ## Index
-* [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/)
-* <a href="https://www.WordPress.com" target="_blank">WordPress Homepage</a>
+* [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/){:target="_blank"}
 * [Pods](#pods)
 * [Replica Controller](#replica-controller)
 * [Replica Set](#replica-set)
