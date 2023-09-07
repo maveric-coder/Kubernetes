@@ -410,6 +410,25 @@ spec:
       path: /my-nfs-volume
       readOnly: true
 ```
+**4. Persistent volume:**
+A `PersistentVolume (PV)` is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource. PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
+
+A `PersistentVolumeClaim (PVC)` is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources. Pods can request specific levels of resources (CPU and Memory). Claims can request specific size and access modes).
+
+Different access modes are below:
+
+*** ReadWriteOnce**
+the volume can be mounted as read-write by a single node. ReadWriteOnce access mode still can allow multiple pods to access the volume when the pods are running on the same node.
+ReadOnlyMany
+the volume can be mounted as read-only by many nodes.
+ReadWriteMany
+the volume can be mounted as read-write by many nodes.
+ReadWriteOncePod
+FEATURE STATE: Kubernetes v1.27 [beta]
+the volume can be mounted as read-write by a single Pod. Use ReadWriteOncePod access mode if you want to ensure that only one pod across the whole cluster can read that PVC or write to it.
+
+
+
 
 
 ## apply vs create
