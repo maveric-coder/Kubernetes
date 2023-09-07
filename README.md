@@ -418,16 +418,14 @@ A `PersistentVolumeClaim (PVC)` is a request for storage by a user. It is simila
 Different access modes are below:
 
 * **ReadWriteOnce**
-the volume can be mounted as read-write by a single node. ReadWriteOnce access mode still can allow multiple pods to access the volume when the pods are running on the same node.
-ReadOnlyMany
-the volume can be mounted as read-only by many nodes.
-ReadWriteMany
-the volume can be mounted as read-write by many nodes.
-ReadWriteOncePod
-FEATURE STATE: Kubernetes v1.27 [beta]
-the volume can be mounted as read-write by a single Pod. Use ReadWriteOncePod access mode if you want to ensure that only one pod across the whole cluster can read that PVC or write to it.
-
-
+The volume can be mounted as read-write by a single node. ReadWriteOnce access mode still can allow multiple pods to access the volume when the pods are running on the same node.
+* **ReadOnlyMany**
+The volume can be mounted as read-only by many nodes.
+* **ReadWriteMany**
+The volume can be mounted as read-write by many nodes.
+* **ReadWriteOncePod**
+The volume can be mounted as read-write by a single Pod. Use ReadWriteOncePod access mode if you want to ensure that only one pod across the whole cluster can read that PVC or write to it.
+<a href="files/img/pvc.gif" target="blank"><img src = "files/img/pvc.gif" width="500" height="360"/></a> <br>
 
 
 
