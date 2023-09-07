@@ -336,10 +336,81 @@ Cons:
 
 ### Volumes
 On-disk files in a container are ephemeral, which presents some problems for non-trivial applications when running in containers. 
-One problem occurs when a container crashes or is stopped. 
-Container state is not saved so all of the files that were created or modified during the lifetime of the container are lost. During a crash, kubelet restarts the container with a clean state. Another problem occurs when multiple containers are running in a Pod and need to share files. 
 
-1. 
+One problem occurs when a container crashes or is stopped. 
+
+Container state is not saved so all of the files that were created or modified during the lifetime of the container are lost.
+During a crash, kubelet restarts the container with a clean state. Another problem occurs when multiple containers are running in a Pod and need to share files. 
+
+**1. configMap**
+A ConfigMap provides a way to inject configuration data into pods. The data stored in a ConfigMap can be referenced in a volume of type configMap and then consumed by containerized applications running in a pod.
+
+When referencing a ConfigMap, you provide the name of the ConfigMap in the volume. You can customize the path to use for a specific entry in the ConfigMap. The following configuration shows how to mount the `log-config` ConfigMap onto a Pod called `configmap-pod`:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+    - name: test
+      image: busybox:1.28
+      volumeMounts:
+        - name: config-vol
+          mountPath: /etc/config
+  volumes:
+    - name: config-vol
+      configMap:
+        name: log-config
+        items:
+          - key: log_level
+            path: log_level
+```
+The log-config ConfigMap is mounted as a volume, and all contents stored in its log_level entry are mounted into the Pod at path /etc/config/log_level. Note that this path is derived from the volume's mountPath and the path keyed with log_level.
+
+**2. emptyDir**
+An emptyDir volume is first created when a Pod is assigned to a node, and exists as long as that Pod is running on that node. As the name says, the emptyDir volume is initially empty. All containers in the Pod can read and write the same files in the emptyDir volume, though that volume can be mounted at the same or different paths in each container. When a Pod is removed from a node for any reason, the data in the emptyDir is deleted permanently.
+emptyDir configuration example:
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /cache
+      name: cache-volume
+  volumes:
+  - name: cache-volume
+    emptyDir:
+      sizeLimit: 500Mi
+```
+
+**3. nfs**
+An nfs volume allows an existing NFS (Network File System) share to be mounted into a Pod. Unlike emptyDir, which is erased when a Pod is removed, the contents of an nfs volume are preserved and the volume is merely unmounted. This means that an NFS volume can be pre-populated with data, and that data can be shared between pods. NFS can be mounted by multiple writers simultaneously.
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /my-nfs-data
+      name: test-volume
+  volumes:
+  - name: test-volume
+    nfs:
+      server: my-nfs-server.example.com
+      path: /my-nfs-volume
+      readOnly: true
+```
+
 
 ## apply vs create
 
