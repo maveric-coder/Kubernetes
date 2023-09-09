@@ -431,6 +431,148 @@ The volume can be mounted as read-write by many nodes.
 The volume can be mounted as read-write by a single Pod. Use ReadWriteOncePod access mode if you want to ensure that only one pod across the whole cluster can read that PVC or write to it.
 <img src = "files/img/pvc.gif" width="500" height="360"/></a> <br>
 
+**Phase**
+A PersistentVolume will be in one of the following phases:
+
+*Available*
+a free resource that is not yet bound to a claim
+*Bound*
+the volume is bound to a claim
+*Released*
+the claim has been deleted, but the associated storage resource is not yet reclaimed by the cluster
+*Failed*
+the volume has failed its (automated) reclamation
+You can see the name of the PVC bound to the PV using kubectl describe persistentvolume <name>.
+
+### PersistentVolumeClaims
+Each PVC contains a spec and status, which is the specification and status of the claim. The name of a PersistentVolumeClaim object must be a valid DNS subdomain name.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: myclaim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: slow
+  selector:
+    matchLabels:
+      release: "stable"
+    matchExpressions:
+      - {key: environment, operator: In, values: [dev]}
+```
+## init containers
+A Pod can have multiple containers running apps within it, but it can also have one or more init containers, which run before the app containers are started.
+
+Init containers are exactly like regular containers, except: *Init containers always run to completion.*
+Each init container must complete successfully before the next one starts.
+If a Pod's init container fails, the kubelet repeatedly restarts that init container until it succeeds. However, if the Pod has a restartPolicy of Never, and an init container fails during startup of that Pod, Kubernetes treats the overall Pod as failed.
+
+init containers do not support lifecycle, livenessProbe, readinessProbe, or startupProbe because they must run to completion before the Pod can be ready.
+
+**Using init containers**
+Because init containers have separate images from app containers, they have some advantages for start-up related code:
+
+Init containers can contain utilities or custom code for setup that are not present in an app image. For example, there is no need to make an image `FROM` another image just to use a tool like `sed`, `awk`, `python`, or `dig `during setup.
+
+Init containers can securely run utilities or custom code that would otherwise make an app container image less secure. By keeping unnecessary tools separate you can limit the attack surface of your app container image.
+
+Init containers example
+This example defines a simple Pod that has two init containers. The first waits for myservice, and the second waits for mydb. Once both init containers complete, the Pod runs the app container from its spec section.
+
+create myapp.yaml
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app.kubernetes.io/name: MyApp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+  initContainers:
+  - name: init-myservice
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup myservice.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for myservice; sleep 2; done"]
+  - name: init-mydb
+    image: busybox:1.28
+    command: ['sh', '-c', "until nslookup mydb.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for mydb; sleep 2; done"]
+```
+You can start this Pod by running:
+
+```bash
+kubectl apply -f myapp.yaml
+```
+And check on its status with:
+
+```bash
+kubectl get -f myapp.yaml
+```
+
+or for more details:
+
+```bash
+kubectl describe -f myapp.yaml
+```
+To see logs for the init containers in this Pod, run:
+
+```bash
+kubectl logs myapp-pod -c init-myservice # Inspect the first init container
+kubectl logs myapp-pod -c init-mydb      # Inspect the second init container
+```
+At this point, those init containers will be waiting to discover Services named mydb and myservice.
+
+Here's a configuration you can use to make those Services appear:
+```yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myservice
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mydb
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9377
+
+```
+To create the mydb and myservice services:
+
+```bash
+kubectl apply -f services.yaml
+```
+
+## Namespace
+
+User namespaces is a Linux feature that allows to map users in the container to different users in the host. Furthermore, the capabilities granted to a pod in a user namespace are valid only in the namespace and void outside of it.
+
+A user namespace isolates the user running inside the container from the one in the host.
+
+A process running as root in a container can run as a different (non-root) user in the host; in other words, the process has full privileges for operations inside the user namespace, but is unprivileged for operations outside the namespace.
+
+
+
+
+
 
 
 ## apply vs create
