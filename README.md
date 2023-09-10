@@ -1,7 +1,7 @@
 # Kubernetes
 
 ## Index
-* [Detailed explanation of Kubernetes Archetecture](https://devopscube.com/kubernetes-architecture-explained/)
+* [Detailed explanation of Kubernetes Architecture](https://devopscube.com/kubernetes-architecture-explained/)
 * [Pods](#pods)
 * [Replica Controller](#replica-controller)
 * [Replica Set](#replica-set)
