@@ -419,7 +419,7 @@ spec:
       path: /my-nfs-volume
       readOnly: true
 ```
-## Persistent volume
+### Persistent volume
 
 A `PersistentVolume (PV)` is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. It is a resource in the cluster just like a node is a cluster resource. PVs are volume plugins like Volumes, but have a lifecycle independent of any individual Pod that uses the PV. This API object captures the details of the implementation of the storage, be that NFS, iSCSI, or a cloud-provider-specific storage system.
 
@@ -450,7 +450,7 @@ the claim has been deleted, but the associated storage resource is not yet recla
 the volume has failed its (automated) reclamation
 You can see the name of the PVC bound to the PV using kubectl describe persistentvolume <name>.
 
-### PersistentVolumeClaims
+#### PersistentVolumeClaims
 Each PVC contains a spec and status, which is the specification and status of the claim. The name of a PersistentVolumeClaim object must be a valid DNS subdomain name.
 
 ```yaml
