@@ -651,9 +651,12 @@ spec:
 
 ```
 
+### Ingress
 
+1. Host based routing rule
+2. host based routing rule
 
-
+Ingress controller -> proxy server 
 
 
 ## apply vs create
