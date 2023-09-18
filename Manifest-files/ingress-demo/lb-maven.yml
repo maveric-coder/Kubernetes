@@ -17,13 +17,13 @@ spec:
         name: mavenwebappcontainer
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            cpu: 100m
-            memory: 1Gi
-          limits:
-            cpu: 200m
-            memory: 4Gi
+        #resources:
+        #  requests:
+        #    cpu: 100m
+        #    memory: 1Gi
+        #  limits:
+        #    cpu: 200m
+        #    memory: 4Gi
 ---
 # Load Balancer Service
 apiVersion: v1

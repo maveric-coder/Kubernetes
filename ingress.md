@@ -22,3 +22,5 @@ ingress LB
 go to kubernetes_ingress folder which is copied from https://github.com/kubernetes/ingress-nginx.git
 
 in deployment apply common
+
+kubectl apply -f daemon-set/nginx-ingress.yaml
