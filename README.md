@@ -16,6 +16,7 @@
   * [Canary](#canary)
   * [A/B testing](#ab-testing)
   * [Shadow](#shadow)
+* [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
