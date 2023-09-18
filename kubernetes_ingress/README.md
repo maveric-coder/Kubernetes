@@ -2,6 +2,7 @@
 
 The Ingress is a Kubernetes resource that lets you configure an HTTP load balancer for applications running on Kubernetes, represented by one or more [Services](https://kubernetes.io/docs/concepts/services-networking/service/). Such a load balancer is necessary to deliver those applications to clients outside of the Kubernetes cluster.
 
+<img src = "https://github.com/maveric-coder/Kubernetes/blob/main/files/img/ingress.svg" width="500" height="360"/></a> <br>
 The Ingress resource supports the following features:
 * **Content-based routing**:
     * *Host-based routing*. For example, routing requests with the host header `foo.example.com` to one group of services and the host header `bar.example.com` to another group.
