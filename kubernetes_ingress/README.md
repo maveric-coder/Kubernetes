@@ -16,7 +16,7 @@ The Ingress controller is an application that runs in a cluster and configures a
 In the case of NGINX, the Ingress controller is deployed in a pod along with the load balancer.
 
 
-## Installing the Ingress Controller In AWS 
+## Installing the Ingress Controller In EKS
 
 #### 1. Clone Kubernetes Nginx Ingress Manifests into server where you have kubectl
 
@@ -25,6 +25,18 @@ git clone https://github.com/maveric-coder/Kubernetes.git
 
 cd Kubernetes/kubernetes-ingress/deployments
 ```
+**1.1 Deploy java and maven web applications if not deployed already**
+```
+cd Kubernetes/Manifest-files/ingress-demo
+kubectl apply -f lb-java.yml
+kubectl apply -f lb-maven.yml
+```
+By default the yml files are having `LoadBalancer` service. Test both the applications by using the loadbanacer `<PublicIP>/java-web-app`
+and `<PublicIP>/maven-web-application`.
+
+Post that remove the `LoadBalancer` services running for each application and run them as `ClusterIP`. Re-deploy both the applications, with modified yml files.
+
+
 #### 2. Create a Namespace And SA
 
 ```
