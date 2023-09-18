@@ -21,9 +21,9 @@ In the case of NGINX, the Ingress controller is deployed in a pod along with the
 ### 1. Clone Kubernetes Nginx Ingress Manifests into server where you have kubectl
 
 ```
-git clone https://github.com/p2pro-DevOps/kubernetes-ingress.git
+git clone https://github.com/maveric-coder/Kubernetes.git
 
-cd kubernetes-ingress/deployments
+cd Kubernetes/kubernetes-ingress/deployments
 ```
 ### 2. Create a Namespace And SA
 
@@ -42,7 +42,7 @@ We include two options for deploying the Ingress controller:
  * *Deployment*. Use a Deployment if you plan to dynamically change the number of Ingress controller replicas.
  * *DaemonSet*. Use a DaemonSet for deploying the Ingress controller on every node or a subset of nodes.
 
-* 4.1 Create a DaemonSet
+#### 4.1 Create a DaemonSet
 
 When you run the Ingress Controller by using a DaemonSet, Kubernetes will create an Ingress controller pod on every node of the cluster.
 
@@ -63,7 +63,7 @@ kubectl get pods --namespace=nginx-ingress
  **If you created a daemonset**, ports 80 and 443 of the Ingress controller container are mapped to the same ports of the node where the container is running. To access the Ingress controller, use those ports and an IP address of any node of the cluster where the Ingress controller is running.
 
 
-* 6.1 Service with the Type LoadBalancer
+#### 6.1 Service with the Type LoadBalancer
 
  Create a service with the type **LoadBalancer**. Kubernetes will allocate and configure a cloud load balancer for load balancing the Ingress controller pods.
 
