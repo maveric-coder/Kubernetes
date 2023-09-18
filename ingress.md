@@ -24,3 +24,20 @@ go to kubernetes_ingress folder which is copied from https://github.com/kubernet
 in deployment apply common
 
 kubectl apply -f daemon-set/nginx-ingress.yaml
+
+kubectl apply -f service/loadbalancer-aws-elb.yaml
+
+dns checker and dns name 54.160.247.168    -   54.236.188.49
+
+
+kubectl logs nginx-ingress-8xhhp -n nginx-ingress
+
+
+
+
+vi hostpath.yml
+
+sudo dscacheutil -flushcache - to flush DNS
+sudo nano /etc/hosts
+
+mavenwebapptest.com/maven-web-appplication
