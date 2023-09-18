@@ -109,18 +109,28 @@ sudo yum install bind-utils
 
 The bind-utils package includes both dig and nslookup tools. After installation, you should be able to use the dig or nslookup command.
 
-* *In Windows:*
+**In Windows:**
 
 Run cmd as Administrator -> ipconfig /flushdns
 This will flush the saved dns in the local system
 
 Defile DNS for the local system, open the below path as admin:
 C:\Windows\System32\Drivers\etc\hosts
-```
+```cmd
 13.234.79.225 javawebapptest.com
 13.126.61.94 javawebapptest.com
 13.234.79.225 mavenwebapptest.com
 13.126.61.94 mavenwebapptest.com
+```
+
+**In Mac:**
+To flush the DNS
+```bash
+sudo dscacheutil -flushcache - to flush DNS
+```
+Then add the IP address and desired URLs:
+```bash
+sudo nano /etc/hosts
 ```
 #### 7. Ingress Resource:
 
