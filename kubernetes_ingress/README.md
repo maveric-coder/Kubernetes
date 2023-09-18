@@ -21,19 +21,19 @@ In the case of NGINX, the Ingress controller is deployed in a pod along with the
 ## 1. Clone Kubernetes Nginx Ingress Manifests into server where you have kubectl
 
 ```
-$ git clone https://github.com/p2pro-DevOps/kubernetes-ingress.git
+git clone https://github.com/p2pro-DevOps/kubernetes-ingress.git
 
-$ cd kubernetes-ingress/deployments
+cd kubernetes-ingress/deployments
 ```
 ## 2. Create a Namespace And SA
 
 ```
- $ kubectl apply -f common/ns-and-sa.yaml
+kubectl apply -f common/ns-and-sa.yaml
 ```
 ## 3. Create RBAC, Default Secret And Config Map
 
 ```
- $ kubectl apply -f common/
+kubectl apply -f common/
 ```
 
 ## 4. Deploy the Ingress Controller
@@ -47,15 +47,15 @@ We include two options for deploying the Ingress controller:
 When you run the Ingress Controller by using a DaemonSet, Kubernetes will create an Ingress controller pod on every node of the cluster.
 
 ```
- $ kubectl apply -f daemon-set/nginx-ingress.yaml
- ```
+kubectl apply -f daemon-set/nginx-ingress.yaml
+```
 
 ## 5. Check that the Ingress Controller is Running
 
 Check that the Ingress Controller is Running
 Run the following command to make sure that the Ingress controller pods are running:
 ```
-$ kubectl get pods --namespace=nginx-ingress
+kubectl get pods --namespace=nginx-ingress
 ```
 
 ## 6. Get Access to the Ingress Controller
@@ -69,31 +69,31 @@ $ kubectl get pods --namespace=nginx-ingress
 
 **For AWS, run:**
 ```
-$ kubectl apply -f service/loadbalancer-aws-elb.yaml
+kubectl apply -f service/loadbalancer-aws-elb.yaml
 ```
 
 To get the DNS name of the ELB, run:
 ```
-$ kubectl describe svc nginx-ingress --namespace=nginx-ingress
+kubectl describe svc nginx-ingress --namespace=nginx-ingress
 ```
 
 `OR`
 
 ```
-$ kubectl get svc -n nginx-ingress 
+kubectl get svc -n nginx-ingress 
 ```
 
 You can resolve the DNS name into an IP address using `nslookup`:
 ```
-$ nslookup <dns-name>
+nslookup <dns-name>
 ```
 To map your domain mavenwebapp.com to the AWS LoadBalancer DNS name (a41d8b744dd6d462c883f1ed05decfdb-1245958895.ap-south-1.elb.amazonaws.com) on your local machine, you will need to update your hosts file. This will allow your local machine to resolve the domain name mavenwebapp.com to the IP address that your LoadBalancer is using.
 
 Please note, this only works on your local machine. If you want this setup to be accessible by other machines, you'll need to use a DNS service like Amazon Route 53 or Google DNS to setup an A or CNAME record that points to the load balancer.
 
-$ nslookup a41d8b744dd6d462c883f1ed05decfdb-1245958895.ap-south-1.elb.amazonaws.com   
+nslookup a41d8b744dd6d462c883f1ed05decfdb-1245958895.ap-south-1.elb.amazonaws.com   
 
-$ sudo yum install bind-utils
+sudo yum install bind-utils
 
 The bind-utils package includes both dig and nslookup tools. After installation, you should be able to use the dig or nslookup command.
 
@@ -102,7 +102,7 @@ Click on the Windows start button, type cmd into the search box, then right-clic
 Run the DNS flush command:
 In the command prompt window, type the following command and hit enter:
 
-$ ipconfig /flushdns
+ipconfig /flushdns
 
 define dns on your local-meachine:
 C:\Windows\System32\Drivers\etc\hosts --> open as an admin
