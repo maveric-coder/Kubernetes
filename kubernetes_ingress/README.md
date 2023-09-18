@@ -18,31 +18,31 @@ In the case of NGINX, the Ingress controller is deployed in a pod along with the
 
 ## Installing the Ingress Controller In AWS 
 
-### 1. Clone Kubernetes Nginx Ingress Manifests into server where you have kubectl
+#### 1. Clone Kubernetes Nginx Ingress Manifests into server where you have kubectl
 
 ```
 git clone https://github.com/maveric-coder/Kubernetes.git
 
 cd Kubernetes/kubernetes-ingress/deployments
 ```
-### 2. Create a Namespace And SA
+#### 2. Create a Namespace And SA
 
 ```
 kubectl apply -f common/ns-and-sa.yaml
 ```
-### 3. Create RBAC, Default Secret And Config Map
+#### 3. Create RBAC, Default Secret And Config Map
 
 ```
 kubectl apply -f common/
 ```
 
-### 4. Deploy the Ingress Controller
+#### 4. Deploy the Ingress Controller
 
 We include two options for deploying the Ingress controller:
  * *Deployment*. Use a Deployment if you plan to dynamically change the number of Ingress controller replicas.
  * *DaemonSet*. Use a DaemonSet for deploying the Ingress controller on every node or a subset of nodes.
 
-#### 4.1 Create a DaemonSet
+ **4.1 Create a DaemonSet**
 
 When you run the Ingress Controller by using a DaemonSet, Kubernetes will create an Ingress controller pod on every node of the cluster.
 
@@ -50,7 +50,7 @@ When you run the Ingress Controller by using a DaemonSet, Kubernetes will create
 kubectl apply -f daemon-set/nginx-ingress.yaml
 ```
 
-### 5. Check that the Ingress Controller is Running
+#### 5. Check that the Ingress Controller is Running
 
 Check that the Ingress Controller is Running
 Run the following command to make sure that the Ingress controller pods are running:
@@ -58,12 +58,12 @@ Run the following command to make sure that the Ingress controller pods are runn
 kubectl get pods --namespace=nginx-ingress
 ```
 
-### 6. Get Access to the Ingress Controller
+#### 6. Get Access to the Ingress Controller
 
  **If you created a daemonset**, ports 80 and 443 of the Ingress controller container are mapped to the same ports of the node where the container is running. To access the Ingress controller, use those ports and an IP address of any node of the cluster where the Ingress controller is running.
 
 
-#### 6.1 Service with the Type LoadBalancer
+ **6.1 Service with the Type LoadBalancer**
 
  Create a service with the type **LoadBalancer**. Kubernetes will allocate and configure a cloud load balancer for load balancing the Ingress controller pods.
 
@@ -110,11 +110,11 @@ C:\Windows\System32\Drivers\etc\hosts
 13.234.79.225 mavenwebapptest.com
 13.126.61.94 mavenwebapptest.com
 ```
-## 7. Ingress Resource:
+#### 7. Ingress Resource:
 
-### 5.1 Define path based or host based routing rules for your services.
+**7.1 Define path based or host based routing rules for your services.**
 
-### Single DNS Sample with host and servcie place holders
+**Single DNS Sample with host and servcie place holders**
 ``` yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -135,7 +135,7 @@ spec:
               number: 80
 ``` 
 
-### Multiple DNS Sample with hosts and servcies place holders
+**Multiple DNS Sample with hosts and servcies place holders**
 ``` yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -166,7 +166,7 @@ spec:
               number: 80	
 ``` 		  
 
-### Path Based Routing Example
+**Path Based Routing Example**
 ``` yaml		  
 apiVersion: networking.k8s.io/v1
 kind: Ingress
