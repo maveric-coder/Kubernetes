@@ -37,7 +37,7 @@ and `<PublicIP>/maven-web-application`.
 Post that remove the `LoadBalancer` services running for each application and run them as `ClusterIP`. Re-deploy both the applications, with modified yml files.
 
 
-### 2. Create a Namespace And SA
+### 2. Create a Namespace and Service-Account
 
 ```
 kubectl apply -f common/ns-and-sa.yaml
