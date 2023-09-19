@@ -2,7 +2,7 @@
 
 The Ingress is a Kubernetes resource that lets you configure an HTTP load balancer for applications running on Kubernetes, represented by one or more [Services](https://kubernetes.io/docs/concepts/services-networking/service/). Such a load balancer is necessary to deliver those applications to clients outside of the Kubernetes cluster.
 
-<img src = "https://github.com/maveric-coder/Kubernetes/blob/main/files/img/ingress.svg" width="500" height="360"/></a> <br>
+<img src = "https://github.com/maveric-coder/Kubernetes/blob/main/files/img/ingress.png" width="400" height="800"/></a> <br>
 The Ingress resource supports the following features:
 * **Content-based routing**:
     * *Host-based routing*. For example, routing requests with the host header `foo.example.com` to one group of services and the host header `bar.example.com` to another group.
@@ -39,7 +39,10 @@ Post that remove the `LoadBalancer` services running for each application and ru
 
 
 ### 2. Create a Namespace and Service-Account
+Now we have deployed our two applications which can be accessed by ClustureIP. We will proceed with Nginx-Ingress deployment.
+* Swith to `Kubernetes\kubernetes_ingress\deployments` folder which contains files for deploying the Ingress controller and load balancer.
 
+In below step we are creating namespace and Service account for Nginx-Ingress, post which we will deploy RBAC and configMap.
 ```
 kubectl apply -f common/ns-and-sa.yaml
 ```
