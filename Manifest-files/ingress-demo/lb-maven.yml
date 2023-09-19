@@ -13,7 +13,7 @@ spec:
         app: mavenwebapp
     spec:
       containers:
-      - image: dockerp2pro/maven-web-application
+      - image: anand2909/maven-web-application
         name: mavenwebappcontainer
         ports:
         - containerPort: 8080
