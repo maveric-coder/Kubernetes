@@ -2,13 +2,15 @@
 Role-based access control (RBAC) is a way of granting users granular access to Kubernetes API resources. RBAC is a security design that restricts access to Kubernetes resources based on the role the user holds.
 
 API Objects for configuring RBAC: `Role`, `ClusterRole`, `RoleBinding` and `ClusterRoleBinding`.
-
 `Role/ClusterRole` only say what can be done, while who can do what is defined in a `RoleBinding/ClusterRoleBinding`.
-
+```
 kubectl get ns -A
-to see all the present namespaces in the environment
-
+```
+To see all the present namespaces in the environment.
+Now we will create a new namespace named `test`.
+```
 kubectl create ns test
+```
 ```yaml
 vi serviceaccount.yml
 apiVersion: v1
