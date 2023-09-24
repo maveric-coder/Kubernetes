@@ -152,3 +152,21 @@ kubectl auth can-i --as system:serviceaccount:test:foo create deployments -n kub
 kubectl auth can-i --as system:serviceaccount:test:foo delete deployments -n kube-system
 kubectl auth can-i --as system:serviceaccount:test:foo delete deployments -n default
 ```
+## Elements in RBAC Definition
+**Subjects**
+Subjects are nothing but a group of users, services, or team making an attempt at Kubernetes API. It defines what operations a user, service, or a group can perform.
+
+Users: These are global, and meant for humans or processes living outside the cluster.
+Groups: Set of users.
+Service Accounts: Kubernetes uses service accounts to authenticate and authorize requests by pods to the Kubernetes API server. These are namespaced and meant for intra-cluster processes running inside pods.
+**Verbs**
+The set of operations that can be executed to the resources are called verbs. For examples, different verbs are get, watch, create, delete. Ultimately all of them are Create, Read, Update or Delete (CRUD) operations.
+
+**Resources**
+The set of Kubernetes API Objects available in the cluster are called Resources. For examples, Pods, Deployments, Services, Nodes, PersistentVolumes etc.
+
+
+## Use Cases: What to use When?
+Use Role and a RoleBinding to scope security to a single namespace.
+Use ClusterRole and RoleBinding to scope security to several or all namespaces.
+Use ClusterRole and ClusterRoleBinding to scope security to all namespaces OR cluster-scoped resources.
