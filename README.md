@@ -729,6 +729,7 @@ You'll get the following output, indicating success:
 `deployment.apps/yourdeployment created`
 
 ## Managing EKS
+**To Install and configure clustre in EKS**
 ```bash
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 sudo mv /tmp/eksctl /usr/bin
@@ -744,6 +745,7 @@ eksctl create cluster --name myCluster --version 1.27 --region us-east-1 --nodeg
 ```
 Post execution of the above step, we need to wait for 15-20 mins for the cluster to created nodes. Meanwhile we can go to EKS and see the resources getting created with time.
 
+**Once we are done working,we can delete the created clusture by following the below steps**
 ```bash
 kubectl get svc --all-namespaces
 ```
