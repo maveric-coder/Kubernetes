@@ -110,7 +110,7 @@ kubectl logs nginx-ingress-ffjh2 -n nginx-ingress
 ```
 if 404 error code is not visible in first pod logs then check other pods. The error 404 denotes that we do not have correct access.
 We created the Ingress but we did not define the rules.
-Since we will be doing host based routing so copy the 7.2 yaml file present below and deploy it.
+Since we will be doing host based routing so copy the 7.2 yaml file **Multiple DNS Sample with hosts and servcies place holders** present below and deploy it.
 
 
 ### 7. Ingress Resource:
@@ -147,7 +147,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: javawebapp.com
+  - host: javawebapptest.com
     http:
       paths:
       - pathType: Prefix
@@ -157,7 +157,7 @@ spec:
             name: javawebapp-service
             port:
               number: 80
-  - host: mavenwebapp.com
+  - host: mavenwebapptest.com
     http:
       paths:
       - pathType: Prefix
