@@ -38,7 +38,7 @@ Post that remove the `LoadBalancer` services running for each application and ru
 
 ### 2. Create a Namespace and Service-Account
 Now we have deployed our two applications which can be accessed by ClustureIP. We will proceed with Nginx-Ingress deployment.
-* Switch to `Kubernetes\kubernetes_ingress\deployments` folder which contains files for deploying the Ingress controller and load balancer.
+* Switch to `Kubernetes/kubernetes_ingress/deployments` folder which contains files for deploying the Ingress controller and load balancer.
 
 In below step we are creating namespace and Service account for Nginx-Ingress, post which we will deploy RBAC and configMap.
 ```
