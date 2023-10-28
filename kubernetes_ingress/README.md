@@ -101,6 +101,105 @@ You can resolve the DNS name into an IP address using `nslookup`:
 ```
 nslookup <dns-name>
 ```
+We will get 404 error when we will try to acccess the public IP of ELB `<PublicIP>/java-web-app` and `<PublicIP>/maven-web-application`.
+
+Let's try to see logs of the pods to understand the error
+```
+kubectl logs nginx-ingress<pod name> -n nginx-ingress
+kubectl logs nginx-ingress-ffjh2 -n nginx-ingress
+```
+if 404 error code is not visible in first pod logs then check other pods. The error 404 denotes that we do not have correct access.
+We created the Ingress but we did not define the rules.
+Since we will be doing host based routing so copy the 7.2 yaml file present below and deploy it.
+
+
+### 7. Ingress Resource:
+
+** Define path based or host based routing rules for your services.**
+
+**7.1 Single DNS Sample with host and servcie place holders**
+``` yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-1
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: javawebapp.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: javawebapp-service
+            port:
+              number: 80
+``` 
+
+**7.2 Multiple DNS Sample with hosts and servcies place holders**
+``` yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-1
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: javawebapp.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: javawebapp-service
+            port:
+              number: 80
+  - host: mavenwebapp.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: mavenwebapp-service
+            port:
+              number: 80	
+``` 		  
+
+**7.3 Path Based Routing Example**
+``` yaml		  
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-resource-1
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "javawebapp.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/maven-web-application"
+        backend:
+          service:
+            name: mavenwebapp-service
+            port:
+              number: 80
+      - pathType: Prefix
+        path: "/java-web-app"
+        backend:
+          service:
+            name: javawebapp-service
+            port:
+              number: 80
+	
+``` 
+
+`Make sure you have services created in K8's with type ClusterIP for your applications. Which your are defining in Ingress Resource`.
+
 To map your domain mavenwebapp.com to the AWS LoadBalancer DNS name (a41d8b744dd6d462c883f1ed05decfdb-1245958895.ap-south-1.elb.amazonaws.com) on your local machine, you will need to update your hosts file. This will allow your local machine to resolve the domain name mavenwebapp.com to the IP address that your LoadBalancer is using.
 
 Please note, this only works on your local machine. If you want this setup to be accessible by other machines, you'll need to use a DNS service like Amazon Route 53 or Google DNS to setup an A or CNAME record that points to the load balancer.
@@ -134,93 +233,6 @@ Then add the IP address and desired URLs:
 ```bash
 sudo nano /etc/hosts
 ```
-### 7. Ingress Resource:
-
-**7.1 Define path based or host based routing rules for your services.**
-
-**Single DNS Sample with host and servcie place holders**
-``` yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-resource-1
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: javawebapp.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: javawebapp-service
-            port:
-              number: 80
-``` 
-
-**Multiple DNS Sample with hosts and servcies place holders**
-``` yaml
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-resource-1
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: javawebapp.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: javawebapp-service
-            port:
-              number: 80
-  - host: mavenwebapp.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/"
-        backend:
-          service:
-            name: mavenwebapp-service
-            port:
-              number: 80	
-``` 		  
-
-**Path Based Routing Example**
-``` yaml		  
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: ingress-resource-1
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: "javawebapp.com"
-    http:
-      paths:
-      - pathType: Prefix
-        path: "/maven-web-application"
-        backend:
-          service:
-            name: mavenwebapp-service
-            port:
-              number: 80
-      - pathType: Prefix
-        path: "/java-web-app"
-        backend:
-          service:
-            name: javawebapp-service
-            port:
-              number: 80
-	
-``` 
-
-
-`Make sure you have services created in K8's with type ClusterIP for your applications. Which your are defining in Ingress Resource`.
 
 ### Uninstall the Ingress Controller
 
