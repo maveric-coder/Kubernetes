@@ -23,8 +23,6 @@ In the case of NGINX, the Ingress controller is deployed in a pod along with the
 
 ```
 git clone https://github.com/maveric-coder/Kubernetes.git
-
-cd Kubernetes/kubernetes-ingress/deployments
 ```
 **1.1 Deploy java and maven web applications if not deployed already**
 ```
