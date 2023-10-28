@@ -233,7 +233,11 @@ Then add the IP address and desired URLs:
 ```bash
 sudo nano /etc/hosts
 ```
-
+Open browser and go the below mentioned links to check the applications.
+```
+http://mavenwebapptest.com/maven-web-application/
+http://javawebapptest.com/java-web-app/
+```
 ### Uninstall the Ingress Controller
 
  Delete the `nginx-ingress` namespace to uninstall the Ingress controller along with all the auxiliary resources that were created:
