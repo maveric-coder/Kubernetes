@@ -23,3 +23,6 @@ AJYzgFIBregRCHHduMC7XTMFD0VFr5Nl7t8lNULX
 ```zsh
 kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-ext
 ```
+Once inside, select prometheus as your data source.
+
+And in dashboard, import some existing dashboards eg. - 3662, 1860
