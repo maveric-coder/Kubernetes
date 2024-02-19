@@ -6,9 +6,13 @@
 * [Replica Controller](#replica-controller)
 * [Replica Set](#replica-set)
 * [Deployment](#deployment)
-  * [Updating Deployment](#updating-a-deployment)
-  * [Checking rollout history of deployment](#checking-rollout-history-of-a-deployment)
-  * [Rolling back to previous version](#checking-rollout-history-of-a-deployment)
+  1. Rolling Update:
+     * [Updating Deployment](#updating-a-deployment)
+     * [Checking rollout history of deployment](#checking-rollout-history-of-a-deployment)
+     * [Rolling back to previous version](#checking-rollout-history-of-a-deployment)
+       
+  2. Blue/Green Update:
+     * 
 * [Types of Deployment](#deployments-in-kubernetes)
   * [Recreate](#recreate)
   * [Ramped](#ramped)
