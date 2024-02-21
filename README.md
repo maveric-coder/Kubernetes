@@ -12,7 +12,7 @@
      * [Rolling back to previous version](#checking-rollout-history-of-a-deployment)
 
   2. Blue/Green Update:
-     * 
+     * [Creating Deployment](#
 * [Types of Deployment](#deployments-in-kubernetes)
   * [Recreate](#recreate)
   * [Ramped](#ramped)
@@ -161,7 +161,7 @@ If you specify a `.spec.template.spec.nodeSelector`, then the DaemonSet controll
 ## Deployment
 A Deployment provides declarative updates for Pods and ReplicaSets.
 
-1. Rolling Update:
+### 1. Rolling Update:
    
 We describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. We can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
 ```yaml
