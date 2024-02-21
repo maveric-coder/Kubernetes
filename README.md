@@ -334,8 +334,13 @@ kubectl apply -f service.yaml -n blue-green-deployment
 ```
 Now, let’s verify that the deployments and service are working correctly. To do this, we need to get the external IP address of the service:
 ```sh
-kubectl get service myapp-service -n blue-green-deployment
+kubectl get service -n blue-green-deployment
 ```
+For minikube, in a new shell execute the below command to get the IP and port no. from `get service` shell.
+```sh
+minikube tunnel
+```
+
 Now, Create Green Deployment
 ```yml
 apiVersion: apps/v1
@@ -363,6 +368,11 @@ spec:
         ports:
         - containerPort: 80
 ```
+Save this manifest as green-deployment.yaml, and create the deployment in the green environment using the below command:
+```zsh
+kubectl apply -f green-deployment.yaml -n blue-green-deployment
+```
+
 Now let's update the service with updated fields
 ```yml
 apiVersion: v1
