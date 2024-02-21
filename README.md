@@ -10,7 +10,7 @@
      * [Updating Deployment](#updating-a-deployment)
      * [Checking rollout history of deployment](#checking-rollout-history-of-a-deployment)
      * [Rolling back to previous version](#checking-rollout-history-of-a-deployment)
-       
+
   2. Blue/Green Update:
      * 
 * [Types of Deployment](#deployments-in-kubernetes)
@@ -161,6 +161,8 @@ If you specify a `.spec.template.spec.nodeSelector`, then the DaemonSet controll
 ## Deployment
 A Deployment provides declarative updates for Pods and ReplicaSets.
 
+1. Rolling Update:
+   
 We describe a desired state in a Deployment, and the Deployment Controller changes the actual state to the desired state at a controlled rate. We can define Deployments to create new ReplicaSets, or to remove existing Deployments and adopt all their resources with new Deployments.
 ```yaml
 apiVersion: apps/v1
@@ -263,6 +265,14 @@ kubectl get deployment nginx-deployment
 ```bash
 kubectl describe deployment nginx-deployment
 ```
+
+2. Blue/Green Update:
+
+Blue Green is a deployment pattern that reduces downtime by running two identical production environments called blue and green. Only one environment lives at a time.
+
+We need to ensure about the changes. Changes must be forward and backward-compatible. We need to set up a parallel infrastructure i.e. same number of servers and services used in the actual infrastructure. Post the setup deploy the new version to the new infrastructure, do the sanity, and validate everything. Then switch all the traffic to the green infrastructure. After everything is validated, remove or stop the old infrastructure (blue).
+
+
 ## Deployments in Kubernetes
 
 ### Recreate
