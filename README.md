@@ -266,13 +266,50 @@ kubectl get deployment nginx-deployment
 kubectl describe deployment nginx-deployment
 ```
 
-2. Blue/Green Update:
+### 2. Blue/Green Update:
 
 Blue Green is a deployment pattern that reduces downtime by running two identical production environments called blue and green. Only one environment lives at a time.
 
 We need to ensure about the changes. Changes must be forward and backward-compatible. We need to set up a parallel infrastructure i.e. same number of servers and services used in the actual infrastructure. Post the setup deploy the new version to the new infrastructure, do the sanity, and validate everything. Then switch all the traffic to the green infrastructure. After everything is validated, remove or stop the old infrastructure (blue).
 
+### Create a namespace and Deployment
 
+Run below command to create the namespace
+
+```zsh
+kubectl create namespace blue-green-deployment
+```
+Now, Create Deployment
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demoapp-blue
+  labels:
+    app: demoapp
+    env: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demoapp
+      env: blue
+  template:
+    metadata:
+      labels:
+        app: demoapp
+        env: blue
+    spec:
+      containers:
+      - name: demo
+        image: demoapp:v1.0
+        ports:
+        - containerPort: 80
+```
+Save this manifest as blue-deployment.yaml, and create the deployment in the blue environment using the below command:
+```zsh
+kubectl apply -f blue-deployment.yaml -n blue-green-deployment
+```
 ## Deployments in Kubernetes
 
 ### Recreate
