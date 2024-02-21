@@ -284,25 +284,25 @@ Now, Create Deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demoapp-blue
+  name: nginxv1
   labels:
-    app: demoapp
+    app: nginx
     env: blue
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: demoapp
+      app: nginx
       env: blue
   template:
     metadata:
       labels:
-        app: demoapp
+        app: nginx
         env: blue
     spec:
       containers:
-      - name: demo
-        image: demoapp:v1.0
+      - name: nginx
+        image: nginx:1.14
         ports:
         - containerPort: 80
 ```
@@ -310,6 +310,82 @@ Save this manifest as blue-deployment.yaml, and create the deployment in the blu
 ```zsh
 kubectl apply -f blue-deployment.yaml -n blue-green-deployment
 ```
+
+**Create a Service**
+Now, we need to create a service that will expose our application to the outside world. The service should use the label selector to route traffic to either the blue or green deployment. Create a manifest file and add the below code to it.
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  selector:
+    app: nginx
+    env: blue
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+```
+Save this manifest as `service.yaml`, and create the service using the below command:
+```zsh
+kubectl apply -f service.yaml -n blue-green-deployment
+```
+Now, let’s verify that the deployments and service are working correctly. To do this, we need to get the external IP address of the service:
+```sh
+kubectl get service myapp-service -n blue-green-deployment
+```
+Now, Create Green Deployment
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd1
+  labels:
+    app: httpd
+    env: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: httpd
+      env: green
+  template:
+    metadata:
+      labels:
+        app: httpd
+        env: green
+    spec:
+      containers:
+      - name: httpd
+        image: httpd
+        ports:
+        - containerPort: 80
+```
+Now let's update the service with updated fields
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  selector:
+    app: httpd
+    env: green
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  type: LoadBalancer
+```
+Save this manifest as `service.yaml`, and create the service using the below command:
+```zsh
+kubectl apply -f service.yaml -n blue-green-deployment
+```
+To Rollback, we can revert back the changed we did in service.yml file and the pods will be updated.
+
+
 ## Deployments in Kubernetes
 
 ### Recreate
