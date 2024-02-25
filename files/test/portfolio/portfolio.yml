@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portfoliodeployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: portfolio
+  template:
+    metadata:
+      labels:
+        app: portfolio
+    spec:
+      containers:
+      - image: anand2909/portfolio:v1
+        name: portfoliocontainer
+        ports:
+        - containerPort: 80
+        #resources:
+        #  requests:
+        #    cpu: 100m
+        #    memory: 1Gi
+        #  limits:
+        #    cpu: 200m
+        #    memory: 4Gi
+---
+# Load Balancer Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: portfolioapp-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: portfolio:
