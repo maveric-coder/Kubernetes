@@ -44,7 +44,7 @@ metadata:
 spec:
   containers:
     -name: nginx-container
-      image: nging
+      image: nginx
       ports:
       - containerPort: 80
 ```
