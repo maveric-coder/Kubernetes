@@ -909,6 +909,34 @@ kubectl logs --previous <pod_name>
 ```sh
 kubectl logs <pod_name> --all-containers
 ```
+
+## kubectl describe
+
+Show details of a specific resource or group of resources.
+
+Print a detailed description of the selected resources, including related resources such as events or controllers. You may select a single object by name, all objects of that type, provide a name prefix, or label selector.
+
+```sh
+  # Describe a node
+  kubectl describe nodes kubernetes-node-emt8.c.myproject.internal
+  
+  # Describe a pod
+  kubectl describe pods/nginx
+  
+  # Describe a pod identified by type and name in "pod.json"
+  kubectl describe -f pod.json
+  
+  # Describe all pods
+  kubectl describe pods
+  
+  # Describe pods by label name=myLabel
+  kubectl describe pods -l name=myLabel
+  
+  # Describe all pods managed by the 'frontend' replication controller
+  # (rc-created pods get the name of the rc as a prefix in the pod name)
+  kubectl describe pods frontend
+```
+
 ## Managing EKS
 **To Install and configure clustre in EKS**
 ```bash
