@@ -868,6 +868,8 @@ You'll get the following output, indicating success:
 
 ## Checking logs in K8S
 
+The kubectl logs command enables you to access logs from our resources.
+
 1. Print the logs for a pod
 ```sh
 kubectl logs <pod_name>
