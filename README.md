@@ -865,6 +865,48 @@ You'll get the following output, indicating success:
 
 `deployment.apps/yourdeployment created`
 
+
+## Checking logs in K8S
+
+1. Print the logs for a pod
+```sh
+kubectl logs <pod_name>
+```
+
+2. Print the logs for the last 6 hours for a pod
+```sh
+kubectl logs --since=6h <pod_name>
+```
+
+3. Get the most recent 50 lines of logs for a pod
+```sh
+kubectl logs --tail=50 <pod_name>
+```
+
+4. Print the logs for a pod and follow new logs
+```sh
+kubectl logs -f <pod_name>
+```
+
+5. Print the logs for a container in a pod
+```sh
+kubectl logs -c <container_name> <pod_name>
+```
+
+6. Output the logs for a pod into a file named ‘pod.log’
+```sh
+kubectl logs <pod_name> > pod.log
+```
+
+7. View the logs for a previously failed pod
+```sh
+kubectl logs --previous <pod_name>
+```
+
+8. View the logs for all containers in a pod
+```sh
+kubectl logs <pod_name> --all-containers
+```
 ## Managing EKS
 **To Install and configure clustre in EKS**
 ```bash
