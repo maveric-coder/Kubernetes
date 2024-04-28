@@ -22,6 +22,7 @@
   * [Shadow](#shadow)
 * [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
+* [Drain Nodes](#drain-nodes)
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
 A pod is a group of one or more containers. A container is an enclosed, self-contained execution process, much like a process in an operating system. Kubernetes uses pods to run your code and images in the cluster.
@@ -966,6 +967,40 @@ Post deletion of seleted services, proceed to delete the whole clusture.
 ```bash
 eksctl delete cluster --name myCluster
 ```
+## Drain Nodes
+Kubernetes is designed to be fault tolerant of worker node failures.
+
+There might be different reasons a worker node becomes unusable such as because of a hardware problem, a cloud provider problem, or if there are network issues between worker and master node, the Kubernetes master handles it effectively.
+
+But that doesn’t mean it will always be the case. And this is when you need to drain the nodes and remove all the pods.
+
+The draining is the process for safely evicting all the pods from a node. This way, the containers running on the pod terminate gracefully.
+
+* Step 1: Mark the node as unschedulable (cordon)
+  To perform maintenance on a node, you should unschedule and then drain a node.
+  First have a look at the currently running nodes:
+  ```sh
+  kubectl get nodes
+  ```
+  Now mark the node as unschedulable by running the following command:
+  ```sh
+  kubectl cordon <node name>
+  ```
+  We can notice that the node is now labeled as SchedulingDisabled.
+  ```sh
+  kubectl get nodes
+  ```
+  But this won't evict the pods running in it, we can check it by
+  ```sh
+  kubectl get pods -o wide
+  ```
+  
+
+
+
+
+
+
 ```bash
 sudo apt-get update
 # apt-transport-https may be a dummy package; if so, you can skip that package
