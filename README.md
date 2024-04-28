@@ -23,6 +23,7 @@
 * [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
 * [Drain Nodes](#drain-nodes)
+* [Bare Metal Cluster](#bare-metal-cluster)
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
 A pod is a group of one or more containers. A container is an enclosed, self-contained execution process, much like a process in an operating system. Kubernetes uses pods to run your code and images in the cluster.
@@ -977,6 +978,7 @@ But that doesn’t mean it will always be the case. And this is when you need to
 The draining is the process for safely evicting all the pods from a node. This way, the containers running on the pod terminate gracefully.
 
 * Step 1: Mark the node as unschedulable (cordon)
+  
   To perform maintenance on a node, you should unschedule and then drain a node.
   First have a look at the currently running nodes:
   ```sh
@@ -994,12 +996,26 @@ The draining is the process for safely evicting all the pods from a node. This w
   ```sh
   kubectl get pods -o wide
   ```
+
+* Step 2: Drain the node to prepare for maintenance
+
+  Now drain the node in preparation for maintenance to remove pods that are running on the node by running the following command:
+  ```sh
+  kubectl drain <node name> --grace-period=300 --ignore-daemonsets=true
+  ```
+
+  **NOTE: kubectl drain cannot delete Pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet. You need to use --force to override      that and by doing that the individual pods will be deleted permanently.**
+
+* Step 3: Uncordon the node after maintenance completes
   
+ We need to run following command afterwards to tell Kubernetes that it can resume scheduling new pods onto the node.
+```sh
+kubectl uncordon <node name>
+```
 
+## Bare Metal Cluster
 
-
-
-
+We can manually create a master and worker nodes for K8S clusture by following the below steps
 
 ```bash
 sudo apt-get update
