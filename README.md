@@ -1007,11 +1007,10 @@ The draining is the process for safely evicting all the pods from a node. This w
   **NOTE: kubectl drain cannot delete Pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet. You need to use --force to override      that and by doing that the individual pods will be deleted permanently.**
 
 * Step 3: Uncordon the node after maintenance completes
-  
- We need to run following command afterwards to tell Kubernetes that it can resume scheduling new pods onto the node.
-```sh
-kubectl uncordon <node name>
-```
+  We need to run following command afterwards to tell Kubernetes that it can resume scheduling new pods onto the node.
+  ```sh
+  kubectl uncordon <node name>
+  ```
 
 ## Bare Metal Cluster
 
