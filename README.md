@@ -23,6 +23,7 @@
 * [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
 * [Drain Nodes](#drain-nodes)
+* [Pod Lifecycle](#pod-lifecycle)
 * [Bare Metal Cluster](#bare-metal-cluster)
 ## Pods
 <a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
@@ -1011,6 +1012,25 @@ The draining is the process for safely evicting all the pods from a node. This w
   ```sh
   kubectl uncordon <node name>
   ```
+## Pod Lifecycle
+
+### Pod Lifetime
+Like individual application containers, Pods are considered to be relatively ephemeral (rather than durable) entities. Pods are created, assigned a unique ID (UID), and scheduled to nodes where they remain until termination (according to restart policy) or deletion. If a Node dies, the Pods scheduled to that node are scheduled for deletion after a timeout period.
+
+Pods do not, by themselves, self-heal. If a Pod is scheduled to a node that then fails, the Pod is deleted; likewise, a Pod won't survive an eviction due to a lack of resources or Node maintenance. Kubernetes uses a higher-level abstraction, called a controller, that handles the work of managing the relatively disposable Pod instances.
+
+A given Pod (as defined by a UID) is never "rescheduled" to a different node; instead, that Pod can be replaced by a new, near-identical Pod, with even the same name if desired, but with a different UID.
+
+Here are the possible values for phase:
+
+|Value	 |Description|
+|--------|-----------|
+|Pending |The Pod has been accepted by the Kubernetes cluster, but one or more of the containers has not been set up and made ready to run. This includes time a Pod spends waiting to be scheduled as well as the time spent downloading container images over the network.
+Running	The Pod has been bound to a node, and all of the containers have been created. At least one container is still running, or is in the process of starting or restarting.|
+|Succeeded	|All containers in the Pod have terminated in success, and will not be restarted.|
+|Failed	|All containers in the Pod have terminated, and at least one container has terminated in failure. That is, the container either exited with non-zero status or was terminated by the system.|
+|Unknown	|For some reason the state of the Pod could not be obtained. This phase typically occurs due to an error in communicating with the node where the Pod should be running.|
+
 
 ## Bare Metal Cluster
 
