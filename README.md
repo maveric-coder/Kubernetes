@@ -1031,6 +1031,60 @@ Running	The Pod has been bound to a node, and all of the containers have been cr
 |Failed	|All containers in the Pod have terminated, and at least one container has terminated in failure. That is, the container either exited with non-zero status or was terminated by the system.|
 |Unknown	|For some reason the state of the Pod could not be obtained. This phase typically occurs due to an error in communicating with the node where the Pod should be running.|
 
+**Note: When a Pod is being deleted, it is shown as Terminating by some kubectl commands. This Terminating status is not one of the Pod phases. A Pod is granted a term to terminate gracefully, which defaults to 30 seconds. You can use the flag --force to terminate a Pod by force.**
+
+
+
+### Container States
+
+As well as the phase of the Pod overall, Kubernetes tracks the state of each container inside a Pod. You can use container lifecycle hooks to trigger events to run at certain points in a container's lifecycle.
+To check the state of a Pod's containers, you can use kubectl describe pod <name-of-pod>. The output shows the state for each container within that Pod.
+
+Each state has a specific meaning:
+
+**Waiting**
+If a container is not in either the Running or Terminated state, it is Waiting. A container in the Waiting state is still running the operations it requires in order to complete start up: for example, pulling the container image from a container image registry, or applying Secret data. When you use kubectl to query a Pod with a container that is Waiting, you also see a Reason field to summarize why the container is in that state.
+
+**Running**
+The Running status indicates that a container is executing without issues. If there was a postStart hook configured, it has already executed and finished. When you use kubectl to query a Pod with a container that is Running, you also see information about when the container entered the Running state.
+
+**Terminated**
+A container in the Terminated state began execution and then either ran to completion or failed for some reason. When you use kubectl to query a Pod with a container that is Terminated, you see a reason, an exit code, and the start and finish time for that container's period of execution.
+
+If a container has a preStop hook configured, this hook runs before the container enters the Terminated state.
+
+iner enters the Terminated state.
+
+### How Pods handle problems with containers
+Kubernetes manages container failures within Pods using a restartPolicy defined in the Pod spec. This policy determines how Kubernetes reacts to containers exiting due to errors or other reasons, which falls in the following sequence:
+
+_Initial crash:_ Kubernetes attempts an immediate restart based on the Pod restartPolicy.
+Repeated crashes: After the initial crash Kubernetes applies an exponential backoff delay for subsequent restarts, described in restartPolicy. This prevents rapid, repeated restart attempts from overloading the system.
+_CrashLoopBackOff state:_ This indicates that the backoff delay mechanism is currently in effect for a given container that is in a crash loop, failing and restarting repeatedly.
+_Backoff reset:_ If a container runs successfully for a certain duration (e.g., 10 minutes), Kubernetes resets the backoff delay, treating any new crash as the first one.
+In practice, a `CrashLoopBackOff` is a condition or event that might be seen as output from the kubectl command, while describing or listing Pods, when a container in the Pod fails to start properly and then continually tries and fails in a loop.
+
+In other words, when a container enters the crash loop, Kubernetes applies the exponential backoff delay mentioned in the Container restart policy. This mechanism prevents a faulty container from overwhelming the system with continuous failed start attempts.
+
+The CrashLoopBackOff can be caused by issues like the following:
+
+1. Application errors that cause the container to exit.
+2. Configuration errors, such as incorrect environment variables or missing configuration files.
+3. Resource constraints, where the container might not have enough memory or CPU to start properly.
+4. Health checks failing if the application doesn't start serving within the expected time.
+5. Container liveness probes or startup probes returning a Failure result as mentioned in the probes section.
+   
+To investigate the root cause of a CrashLoopBackOff issue, a user can:
+
+* Check logs: Use kubectl logs <name-of-pod> to check the logs of the container. This is often the most direct way to diagnose the issue causing the crashes.
+* Inspect events: Use kubectl describe pod <name-of-pod> to see events for the Pod, which can provide hints about configuration or resource issues.
+* Review configuration: Ensure that the Pod configuration, including environment variables and mounted volumes, is correct and that all required external resources are available.
+* Check resource limits: Make sure that the container has enough CPU and memory allocated. Sometimes, increasing the resources in the Pod definition can resolve the issue.
+* Debug application: There might exist bugs or misconfigurations in the application code. Running this container image locally or in a development environment can help diagnose application specific issues.
+
+
+
+
 
 ## Bare Metal Cluster
 
