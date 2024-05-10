@@ -22,6 +22,7 @@
   * [Shadow](#shadow)
 * [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
+* [Node Labels](#node-labels)
 * [Drain Nodes](#drain-nodes)
 * [Pod Lifecycle](#pod-lifecycle)
 * [Bare Metal Cluster](#bare-metal-cluster)
@@ -969,6 +970,44 @@ Post deletion of seleted services, proceed to delete the whole clusture.
 ```bash
 eksctl delete cluster --name myCluster
 ```
+
+## Node Labels
+
+We can list Kubernetes node details along with their labels in this fashion:
+```sh
+kubectl get nodes --show-labels
+```
+If we want to know the details for a specific node, use this:
+
+```sh
+kubectl label --list nodes node_name
+```
+_**Note:** The labels are in form of key-value pair. They must begin with a letter or number, and may contain letters, numbers, hyphens, dots, and underscores, up to 63 characters each._
+
+Now, to label a node or nodes we can execute the below command.
+```sh
+kubectl label nodes <node_name> workload=production
+```
+Let's check the node and verify the new label
+```sh
+kubectl label --list nodes <node_name> | grep -i workload
+```
+
+If we later decide to overwrite some labels based on the requirements see how we can achieve that.
+```sh
+kubectl label --overwrite nodes <node_name> workload=staging
+```
+We can confirm the pod re-labelling:
+```sh
+kubectl label --list nodes <node_name> | grep -i workload
+```
+
+Now, to remove the label from a node, provide the key without any value.
+```sh
+kubectl label --overwrite nodes <node_name> workload-
+```
+
+
 ## Drain Nodes
 Kubernetes is designed to be fault tolerant of worker node failures.
 
