@@ -1033,7 +1033,7 @@ We can deploy pods into nodes of our choice and logical conditions using below m
   There are two main uses I can see:
   * Resource Management: For example, Pod schedule on GPU nodes for AI workloads or SSD nodes for DB).
   * Performance Optimization: Placing pods together that communicate frequently, to optimize latency.
-  <img src = "files/img/node_affinity.pmg" width="500" height="360"/>
+  <img src = "files/img/node_affinity.png" width="500" height="360"/>
   
   **How exactly node affinity works?**
   Using node labels.
