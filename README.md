@@ -1012,7 +1012,7 @@ kubectl label --overwrite nodes <node_name> workload-
 
 We can deploy pods into nodes of our choice and logical conditions using below methods.
 
-1. Node Affinity
+**1. Node Affinity**
 
    nodeSelector is the simplest way to constrain Pods to nodes with specific labels. Affinity and anti-affinity expands the types of constraints you can define. Some of the benefits of affinity and anti-affinity include:
 
@@ -1081,6 +1081,73 @@ spec:
   2. This ensures pods run on SSD storage.
   3. So we get better performance for nginx.
 
+**2. Node Selector**
+
+Add a label to a node
+List the nodes in your cluster, along with their labels:
+```sh
+kubectl get nodes --show-labels
+```
+The output is similar to this:
+```sh
+NAME      STATUS    ROLES    AGE     VERSION        LABELS
+worker0   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker0
+worker1   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker1
+worker2   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker2
+```
+
+Choose one of your nodes, and add a label to it:
+```sh
+kubectl label nodes <your-node-name> disktype=ssd
+```
+where <your-node-name> is the name of your chosen node.
+
+Verify that your chosen node has a disktype=ssd label:
+```sh
+kubectl get nodes --show-labels
+```
+The output is similar to this:
+```sh
+NAME      STATUS    ROLES    AGE     VERSION        LABELS
+worker0   Ready     <none>   1d      v1.13.0        ...,disktype=ssd,kubernetes.io/hostname=worker0
+worker1   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker1
+worker2   Ready     <none>   1d      v1.13.0        ...,kubernetes.io/hostname=worker2
+```
+In the preceding output, you can see that the worker0 node has a disktype=ssd label.
+
+Create a pod that gets scheduled to your chosen node 
+This pod configuration file describes a pod that has a node selector, disktype: ssd. This means that the pod will get scheduled on a node that has a `disktype=ssd` label.
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  nodeSelector:
+    disktype: ssd
+
+```
+
+Create a pod that gets scheduled to specific node 
+You can also schedule a pod to one specific node via setting `nodeName`.
+```sh
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  nodeName: foo-node # schedule pod to specific node
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+```
 
 ## Drain Nodes
 Kubernetes is designed to be fault tolerant of worker node failures.
