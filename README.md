@@ -23,6 +23,7 @@
 * [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
 * [Node Labels](#node-labels)
+* [Node Affinity](#node-affinity)
 * [Drain Nodes](#drain-nodes)
 * [Pod Lifecycle](#pod-lifecycle)
 * [Bare Metal Cluster](#bare-metal-cluster)
@@ -1006,6 +1007,73 @@ Now, to remove the label from a node, provide the key without any value.
 ```sh
 kubectl label --overwrite nodes <node_name> workload-
 ```
+
+## Node Affinity/ Node Selector
+
+We can deploy pods into nodes of our choice and logical conditions using below methods.
+
+1. Node Affinity
+
+   nodeSelector is the simplest way to constrain Pods to nodes with specific labels. Affinity and anti-affinity expands the types of constraints you can define. Some of the benefits of affinity and anti-affinity include:
+
+  * The affinity/anti-affinity language is more expressive. nodeSelector only selects nodes with all the specified labels. Affinity/anti-affinity gives you more control over the selection logic.
+  * You can indicate that a rule is soft or preferred, so that the scheduler still schedules the Pod even if it can't find a matching node.
+  * You can constrain a Pod using labels on other Pods running on the node (or other topological domain), instead of just node labels, which allows you to define rules for which Pods can be co-located on a node.
+  The affinity feature consists of two types of affinity:
+
+  * Node affinity functions like the nodeSelector field but is more expressive and allows you to specify soft rules.
+  * Inter-pod affinity/anti-affinity allows you to constrain Pods against labels on other Pods.
+
+   Node affinity is conceptually similar to nodeSelector, allowing you to constrain which nodes your Pod can be scheduled on based on node labels. There are two types of node affinity:
+
+  * *`requiredDuringSchedulingIgnoredDuringExecution`:* The scheduler can't schedule the Pod unless the rule is met. This functions like nodeSelector, but with a more expressive syntax.
+  * *`preferredDuringSchedulingIgnoredDuringExecution`:* The scheduler tries to find a node that meets the rule. If a matching node is not available, the scheduler still schedules the Pod.
+    
+  **Advantages of node affinity**
+  There are two main uses I can see:
+  * Resource Management: For example, Pod schedule on GPU nodes for AI workloads or SSD nodes for DB).
+  * Performance Optimization: Placing pods together that communicate frequently, to optimize latency.
+  <img src = "">
+  
+  **How exactly node affinity works?**
+  Using node labels.
+
+  Nodes, like pods, can be assigned labels which are key-value pairs that act as metadata. Node Affinity uses these labels to determine where to schedule pods.
+
+  For example, the deployment below creates 2 nginx pods. Pods have label "app=nginx".
+
+  A simple deployment
+  ```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "disk"
+                operator: In
+                values:
+                - "ssd"
+```
+
 
 
 ## Drain Nodes
