@@ -12,7 +12,6 @@
      * [Rolling back to previous version](#checking-rollout-history-of-a-deployment)
 
   2. Blue/Green Update:
-     * [Creating Deployment](#
 * [Types of Deployment](#deployments-in-kubernetes)
   * [Recreate](#recreate)
   * [Ramped](#ramped)
