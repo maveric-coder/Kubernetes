@@ -23,7 +23,7 @@
 * [Ingress](https://github.com/maveric-coder/Kubernetes/tree/main/kubernetes_ingress)
 * [Managing EKS](#managing-eks)
 * [Node Labels](#node-labels)
-* [Node Affinity](#node-affinity)
+* [Node Affinity](#node-affinity-node-selector)
 * [Drain Nodes](#drain-nodes)
 * [Pod Lifecycle](#pod-lifecycle)
 * [Bare Metal Cluster](#bare-metal-cluster)
