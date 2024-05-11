@@ -1073,7 +1073,13 @@ spec:
                 values:
                 - "ssd"
 ```
+  In the affinity section of config above, `matchExpressions` defines that if the node label "disk" matches to "ssd" the pod will be scheduled on that node.
 
+  In short:
+
+  1. The config matches nodes with label "disk=ssd".
+  2. This ensures pods run on SSD storage.
+  3. So we get better performance for nginx.
 
 
 ## Drain Nodes
