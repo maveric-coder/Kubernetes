@@ -28,7 +28,7 @@
 * [Pod Lifecycle](#pod-lifecycle)
 * [Bare Metal Cluster](#bare-metal-cluster)
 ## Pods
-<a href="files/img/pod-animation-kubernetes.gif" target="blank"><img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/></a> <br>
+<img src = "files/img/pod-animation-kubernetes.gif" width="500" height="360"/> <br>
 A pod is a group of one or more containers. A container is an enclosed, self-contained execution process, much like a process in an operating system. Kubernetes uses pods to run your code and images in the cluster.
 
 Kubernetes works with Pods, rather than containers, so that containers in the same pod can be guaranteed to run on the same machine. Containers in the same pod share their networking infrastructure, storage resources, and lifecycle.
@@ -1033,7 +1033,7 @@ We can deploy pods into nodes of our choice and logical conditions using below m
   There are two main uses I can see:
   * Resource Management: For example, Pod schedule on GPU nodes for AI workloads or SSD nodes for DB).
   * Performance Optimization: Placing pods together that communicate frequently, to optimize latency.
-  <img src = "">
+  <img src = "files/img/node_affinity.pmg" width="500" height="360"/>
   
   **How exactly node affinity works?**
   Using node labels.
