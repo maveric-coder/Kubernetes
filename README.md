@@ -53,7 +53,7 @@ spec:
       - containerPort: 80
 ```
 Post deployment we can see the newly created Pod using command `kubectl get pods -o wide` or `kubectl get all -o wide`.
-The above yml file will deploy a single pod. To deploy multiple pods at a time and manage them we can use
+The above yml file will deploy a single pod.
 
 ## Replica Controller
 A Replication Controller is a structure that enables us to easily create multiple pods, then it makes sure that that number of desired pods always exists(desired state = actual state). If a pod does crash, the Replication Controller replaces it.
