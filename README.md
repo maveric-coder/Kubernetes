@@ -123,7 +123,7 @@ spec:
 ```
 This will deploy pods similar to that of replication controller the only difference between them is that ***RS*** has `matchLabels` in place of `labels`.
 ```bash
-kubectk describe rs nginx-replicaset
+kubectl describe rs nginx-replicaset
 ```
 In this case `Selector: app=nginx,env in (dev)`, only `app = nginx` and env in dev is getting selected. If we change the operator from `In` to `NotIn` the deployemnt will fail as there is mismatch of the labels.
 
