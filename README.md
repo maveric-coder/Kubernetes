@@ -1261,7 +1261,135 @@ To investigate the root cause of a CrashLoopBackOff issue, a user can:
 * Check resource limits: Make sure that the container has enough CPU and memory allocated. Sometimes, increasing the resources in the Pod definition can resolve the issue.
 * Debug application: There might exist bugs or misconfigurations in the application code. Running this container image locally or in a development environment can help diagnose application specific issues.
 
+### Distribute 6 pods across 5 nodes in Kubernetes to prevent all pods from being on a single node.
+**Solution 1: Pod Anti-Affinity**
 
+Explanation:
+* Prevents pods with the same label from being scheduled on the same node.
+* Provides strong guarantees for pod distribution.
+
+```YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myimage
+        imagePullPolicy: Always
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - myapp
+            topologyKey: kubernetes.io/hostname
+```
+Explanation of code:
+* The podAntiAffinity rule specifies that pods with the label app: myapp should not be scheduled on the same node.
+* topologyKey: kubernetes.io/hostname indicates that the node name should be used for anti-affinity.
+
+**Solution 2: Node Affinity**
+
+Explanation:
+* Prefers pods to be scheduled on nodes with specific labels.
+* Provides softer guarantees compared to anti-affinity.
+Code Snippet:
+```YAML
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myimage
+        imagePullPolicy: Always
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: rack
+                operator: In
+                values:
+                - rack1
+```
+Explanation of code:
+
+* The nodeAffinity rule prefers pods to be scheduled on nodes with the label rack: rack1.
+* You can define multiple preferred scheduling terms with different weights to prioritize node selection.
+
+**Solution 3: Taint and Toleration**
+
+Explanation:
+* Allows precise control over pod placement by marking nodes with taints and pods with tolerations.
+* More complex to manage compared to the other two options.
+Code Snippet:
+```YAML
+# Taint a node
+kubectl taint nodes <node-name> key=value:NoSchedule
+
+# Add toleration to pod
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: myimage
+        imagePullPolicy: Always
+      tolerations:
+      - key: "key"
+        operator: "Equal"
+        value: "value"
+        effect: "NoSchedule"
+```
+Explanation of code:
+* The kubectl taint command adds a taint to a specific node.
+* The tolerations section in the pod spec allows the pod to be scheduled on nodes with the specified taint.
+Additional Considerations:
+* Pod Disruption Budgets: Prevent accidental pod deletions.
+* Node Labels: Use descriptive labels for effective affinity/anti-affinity rules.
+* Cluster Autoscaler: Adjust node pool sizes based on workload.
+Choosing the Right Approach:
+* Pod Anti-Affinity is generally preferred for even distribution.
+* Node Affinity is suitable when you have specific node preferences.
+* Taint and Toleration offer granular control but require careful management.
+By combining these strategies and considering your specific requirements, you can effectively distribute pods across your Kubernetes cluster.
 
 
 
