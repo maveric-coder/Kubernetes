@@ -81,7 +81,7 @@ spec:
         - name: nginx
           image: nginx
           ports:
-            -containerPort: 80
+            - containerPort: 80
 ```
 This will create 4 pods and in case any pod will crash for any reason, it will immediately create a new pod and remove the defected pod.
 To scale the no of pods post deployment, we can either modify the `rc.yml` file or use the below command. 
@@ -94,7 +94,7 @@ ReplicaSets are declared in essentially the same way as ReplicationControllers, 
 
 A sample Replica Set is below:
 ```yml
-apiVersion: v1
+apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
   name: nginx-replicaset
